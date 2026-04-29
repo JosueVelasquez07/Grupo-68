@@ -1,12 +1,11 @@
 from modelos.cliente import Cliente
-from modelos.servicio import Servicio
 from modelos.reserva import Reserva
 
 def simular():
     print("\n--- SIMULACIÓN DEL SISTEMA ---")
 
     cliente = Cliente(1, "Juan", "juan@ejemplo.com", "3001234567")
-    servicio = Servicio(1, "Spa", 50000)
+
 
     reserva = Reserva(1, cliente, servicio, 2)
 
