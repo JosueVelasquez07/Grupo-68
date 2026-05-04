@@ -1,21 +1,17 @@
-
+#importaciones 
 import datetime
 import logging
-
-#Importaciones segun la estructura del equipo
-from .base import entidad 
+from .base import Entidad
 from excepciones.errores import ReservaError
 
-# Configuracion de logs para el archivo solicitado
-logging.basicConfig(
-    filename='sistema_errores.log', 
-    level=logging.INFO, 
-    format='%(asctime)s - %(levelname)s - %(message)s'
-)
+# Configuracion del logger:
+logger = logging.getLogger(__name__)
 
-class Reserva(entidad):
+class Reserva(Entidad):
+    # esta clase es el puente entre entre cliente y servicios.
+
     def __init__(self, id_reserva, cliente, servicio, duracion_horas):
-        # Encapsulacion con atributos privados
+        # encapsulamiento:
         self.__id_reserva = id_reserva
         self.__cliente = cliente
         self.__servicio = servicio
@@ -23,91 +19,117 @@ class Reserva(entidad):
         self.__estado = "Pendiente"
         self.__fecha_creacion = datetime.datetime.now()
 
-    # --- IMPLEMENTACION DE METODOS DE LA CLASE ENTIDAD ---
+    # --- METODOS HEREDADOS DE ENTIDAD ---
 
     def mostrar_info(self):
+        """Implementación obligatoria para mostrar el resumen de la reserva."""
+        try:
+            # Verificacion de existencia de objetos antes de llamar a sus metodos
+            nombre_cliente = self.__cliente.get_nombre() if self.__cliente else "N/A"
+            nombre_servicio = self.__servicio.get_nombre() if self.__servicio else "N/A"
 
-        #Muestra la información integrada de la reserva
+            info = (
+                f"RESERVA #{self.__id_reserva} | "
+                f"CLIENTE: {nombre_cliente} | "
+                f"SERVICIO: {nombre_servicio} | "
+                f"ESTADO: {self.__estado} | "
+                f"FECHA: {self.__fecha_creacion.strftime('%d/%m/%Y %H:%M')}"
+            )
 
-        resumen = (f"RESERVA #{self.__id_reserva} | "
-                   f"CLIENTE: {self.__cliente.nombre} | "
-                   f"SERVICIO: {self.__servicio.nombre} | "
-                   f"ESTADO: {self.__estado}")
-        print(resumen)
-        return resumen
+            logger.info(f"Información consultada para Reserva {self.__id_reserva}")
+            return info
+
+        except Exception as e:
+            logger.error(f"Error mostrando reserva {self.__id_reserva}: {str(e)}")
+            return "Error mostrando información"
 
     def actualizar_info(self, **kwargs):
-        #Actualiza los  atributos dinamicamente
+        """Actualización dinámica de atributos con validación rigurosa."""
         try:
-            for key, value in kwargs.items():
-                if key == "duracion":
-                    if value <= 0: raise ReservaError("Duración inválida", "ERR_VAL")
-                    self.__duracion_horas = value
-                elif key == "estado":
-                    self.set_estado(value)
-            print(f"Reserva {self.__id_reserva} actualizada correctamente.")
-        except Exception as e:
-            logging.error(f"Error actualizando Reserva {self.__id_reserva}: {e}")
+            if "duracion_horas" in kwargs:
+                nueva_duracion = kwargs["duracion_horas"]
+                if nueva_duracion <= 0:
+                    raise ReservaError("La duración debe ser mayor a 0", "ERR_DURACION")
+                self.__duracion_horas = nueva_duracion
 
-    # --- METODOS GETTER Y SETTER ---
+            if "estado" in kwargs:
+                self.set_estado(kwargs["estado"])
+
+            logger.info(f"Reserva {self.__id_reserva} actualizada exitosamente.")
+
+        except ReservaError as e:
+            logger.error(f"{str(e)} | Código: {e.codigo_error}")
+
+        except Exception as e:
+            logger.critical(f"Fallo inesperado al actualizar ID {self.__id_reserva}: {str(e)}")
+
+    # --- GETTERS Y SETTERS ---
 
     def set_estado(self, nuevo_estado):
+        """Validador de estados permitidos."""
         estados_validos = ["Pendiente", "Confirmada", "Cancelada", "Fallida"]
         if nuevo_estado in estados_validos:
             self.__estado = nuevo_estado
         else:
-            raise ReservaError(f"Estado '{nuevo_estado}' no válido.", "ERR_ESTADO_INV")
+            raise ReservaError(f"Estado inválido: {nuevo_estado}", "ERR_ESTADO")
 
     def get_estado(self):
         return self.__estado
 
-    # --- LÓGICA DE PROCESAMIENTO CON EXCEPCIONES ---
+    # --- logica principal ---
 
     def procesar_reserva(self):
-        """
-        Calcula costos y procesa la reserva. 
-        Implementa polimorfismo y manejo robusto de errores.
-        """
-        print(f"\n[SISTEMA FJ] Iniciando procesamiento: {self.__id_reserva}")
         
+        #Ejecuta la confirmacion de la reserva y el calculo de costos.
+        
+        logger.info(f"Iniciando procesamiento de Reserva {self.__id_reserva}")
+
         try:
-            # Validaciones de entrada
+            # 1. Validaciones preventivas
             if self.__duracion_horas <= 0:
-                raise ReservaError("La duracion debe ser mayor a cero.", "ERR_DURACION")
+                raise ReservaError("Duración inválida para el cálculo", "ERR_DURACION")
+            if self.__cliente is None:
+                raise ReservaError("Cliente no asignado", "ERR_CLIENTE")
+            if self.__servicio is None:
+                raise ReservaError("Servicio no asignado", "ERR_SERVICIO")
 
             
-            # Si el servicio no tiene el metodo, se captura el error para no detener el sistema
-            if hasattr(self.__servicio, 'calcular_costo'):
-                total = self.__servicio.calcular_costo(self.__duracion_horas)
-            else:
-                # Calculo de respaldo basado en el precio base de la clase Servicio
-                total = self.__servicio.precio * self.__duracion_horas
-                logging.warning(f"Servicio {self.__servicio.nombre} no implementó calcular_costo.")
+            total = self.__servicio.calcular_costo(self.__duracion_horas)
 
-            print(f"Validación exitosa para {self.__cliente.nombre}.")
-            print(f"Monto total: ${total}")
+            logger.info(f"Reserva {self.__id_reserva} confirmada. Total: ${total}")
+            self.__estado = "Confirmada"
 
         except ReservaError as e:
-            # Error de logica de negocio
-            logging.error(f"ID {self.__id_reserva} - Fallo de negocio: {e.mensaje} | Código: {e.codigo_error}")
+            # Errores controlados
+            logger.error(f"Reserva {self.__id_reserva} fallida: {str(e)} | Código: {e.codigo_error}")
             self.__estado = "Fallida"
-            
-        except Exception as e:
-            # Error crítico o inesperado
-            logging.critical(f"ID {self.__id_reserva} - Error Inesperado: {str(e)}")
-            self.__estado = "Fallida"
-            # Encadenamiento de excepciones
-            raise RuntimeError(f"Error sistemico en reserva {self.__id_reserva}") from e
 
-        else:
-            # Se ejecuta si no hubo excepciones
-            self.__estado = "Confirmada"
-            logging.info(f"Reserva {self.__id_reserva} procesada con exito.")
-            print(">>> OPERACIÓN COMPLETADA CON ÉXITO <<<")
+        except Exception as e:
+            # Errores inesperados
+            logger.critical(f"Error crítico en sistema (ID {self.__id_reserva}): {str(e)}")
+            self.__estado = "Fallida"
+            raise RuntimeError(f"Fallo crítico en el hilo de reserva {self.__id_reserva}") from e
 
         finally:
-            # Se ejecuta siempre
-            print(f"[LOG] Transacción cerrada. Estado: {self.__estado}")
+            # Registro de finalizacion independientemente del resultado
+            logger.info(f"Operación finalizada para ID {self.__id_reserva}. Estado final: {self.__estado}")
+
+    # --- Otros metodos ---
+
+    def cancelar(self):
+        """Permite anular una reserva confirmada."""
+        try:
+            if self.__estado == "Confirmada":
+                self.__estado = "Cancelada"
+                logger.info(f"Reserva {self.__id_reserva} cancelada satisfactoriamente.")
+            else:
+                raise ReservaError(
+                    f"No se puede cancelar una reserva en estado: {self.__estado}",
+                    "ERR_CANCEL"
+                )
+        except ReservaError as e:
+            logger.warning(f"Intento de cancelación fallido (ID {self.__id_reserva}): {str(e)}")
 
     def __str__(self):
-        return f"Reserva {self.__id_reserva} - {self.__estado}"
+        #Representacion simplificada del objeto
+        return f"Reserva {self.__id_reserva} - Estado: {self.__estado}"
