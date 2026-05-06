@@ -133,3 +133,4 @@ class Reserva(Entidad):
     def __str__(self):
         #Representacion simplificada del objeto
         return f"Reserva {self.__id_reserva} - Estado: {self.__estado}"
+""
