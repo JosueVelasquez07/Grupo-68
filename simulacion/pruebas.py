@@ -1,6 +1,8 @@
 from modelos.cliente import Cliente
 from modelos.reserva import Reserva
-from modelos.servicio import Sala, Equipo, Asesoria
+from modelos.servicios.sala import Sala
+from modelos.servicios.equipo import Equipo
+from modelos.servicios.asesoria import Asesoria
 
 def simular():
 
