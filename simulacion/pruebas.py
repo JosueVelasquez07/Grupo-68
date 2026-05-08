@@ -1,16 +1,14 @@
 from modelos.cliente import Cliente
 from modelos.reserva import Reserva
-from modelos.servicio_sala import ServicioSala
-from modelos.servicio_equipo import ServicioEquipo
-from modelos.servicio_asesoria import ServicioAsesoria
+from modelos.servicio import Sala, Equipo, Asesoria
 
 def simular():
 
     try:
         c1 = Cliente(1, "Juan", "juan@mail.com", "300123")
-        s1 = ServicioSala(1, "Sala", 50000)
-        s2 = ServicioEquipo(2, "Proyector", 30000)
-        s3 = ServicioAsesoria(3, "Consultoría", 80000, "avanzado")
+        s1 = Sala(1, "Sala", 50000)
+        s2 = Equipo(2, "Proyector", 30000)
+        s3 = Asesoria(3, "Consultoría", 80000, "avanzado")
 
         reservas = [
             Reserva(1, c1, s1, 2),
