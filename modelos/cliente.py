@@ -1,4 +1,11 @@
-class Cliente:
+class SistemaError(Exception):
+    def __init__(self, mensaje, codigo_Error):
+        super().__init__(mensaje)
+        self.codigo = codigo_Error
+
+
+class ClienteError(SistemaError):
+    pass
     def __init__(self, id_cliente, nombre, correo, telefono):
  
         # Validaciones
