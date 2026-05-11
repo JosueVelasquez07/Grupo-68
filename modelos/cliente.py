@@ -1,4 +1,7 @@
-class Cliente:
+from .base import Entidad
+from excepciones.errores import ClienteError
+
+class Cliente(Entidad):
     def __init__(self, id_cliente, nombre, correo, telefono):
  
         # Validaciones
