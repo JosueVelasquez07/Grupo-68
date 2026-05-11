@@ -7,7 +7,7 @@ from modelos.servicios.asesoria import Asesoria
 def simular():
 
     try:
-        c1 = Cliente(1, "Juan", "juan@mail.com", "300123")
+        c1 = Cliente(1, "Juan", "juan@mail.com", "3001234567")
         s1 = Sala(1, "Sala", 50000)
         s2 = Equipo(2, "Proyector", 30000)
         s3 = Asesoria(3, "Consultoría", 80000, "avanzado")
