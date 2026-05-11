@@ -25,8 +25,8 @@ class Reserva(Entidad):
         """Implementación obligatoria para mostrar el resumen de la reserva."""
         try:
             # Verificacion de existencia de objetos antes de llamar a sus metodos
-            nombre_cliente = self.__cliente.get_nombre() if self.__cliente else "N/A"
-            nombre_servicio = self.__servicio.get_nombre() if self.__servicio else "N/A"
+            nombre_cliente = self.__cliente.nombre if self.__cliente else "N/A"
+            nombre_servicio = self.__servicio.nombre if self.__servicio else "N/A"
 
             info = (
                 f"RESERVA #{self.__id_reserva} | "
