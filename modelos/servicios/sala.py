@@ -1,4 +1,4 @@
-from servicio import Servicio
+from ..servicio import Servicio
 from excepciones.errores import ServicioError
 
 class Sala(Servicio):
