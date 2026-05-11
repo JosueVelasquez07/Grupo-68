@@ -1,0 +1,24 @@
+2026-05-11 09:23:12,512 - INFO - modelos.reserva - Iniciando procesamiento de Reserva 1
+2026-05-11 09:23:12,513 - INFO - modelos.reserva - Reserva 1 confirmada. Total: $100000
+2026-05-11 09:23:12,513 - INFO - modelos.reserva - Operación finalizada para ID 1. Estado final: Confirmada
+2026-05-11 09:23:12,513 - ERROR - modelos.reserva - Error mostrando reserva 1: 'Sala' object has no attribute 'get_nombre'
+2026-05-11 09:23:12,515 - INFO - modelos.reserva - Iniciando procesamiento de Reserva 2
+2026-05-11 09:23:12,515 - ERROR - modelos.reserva - Reserva 2 fallida: Duración inválida para el cálculo | Código: ERR_DURACION
+2026-05-11 09:23:12,515 - INFO - modelos.reserva - Operación finalizada para ID 2. Estado final: Fallida
+2026-05-11 09:23:12,515 - ERROR - modelos.reserva - Error mostrando reserva 2: 'Equipo' object has no attribute 'get_nombre'
+2026-05-11 09:23:12,515 - INFO - modelos.reserva - Iniciando procesamiento de Reserva 3
+2026-05-11 09:23:12,515 - INFO - modelos.reserva - Reserva 3 confirmada. Total: $360000.0
+2026-05-11 09:23:12,515 - INFO - modelos.reserva - Operación finalizada para ID 3. Estado final: Confirmada
+2026-05-11 09:23:12,515 - ERROR - modelos.reserva - Error mostrando reserva 3: 'Asesoria' object has no attribute 'get_nombre'
+2026-05-11 10:09:14,534 - INFO - modelos.reserva - Iniciando procesamiento de Reserva 1
+2026-05-11 10:09:14,534 - INFO - modelos.reserva - Reserva 1 confirmada. Total: $100000
+2026-05-11 10:09:14,534 - INFO - modelos.reserva - Operación finalizada para ID 1. Estado final: Confirmada
+2026-05-11 10:09:14,535 - ERROR - modelos.reserva - Error mostrando reserva 1: 'Sala' object has no attribute 'get_nombre'
+2026-05-11 10:09:14,535 - INFO - modelos.reserva - Iniciando procesamiento de Reserva 2
+2026-05-11 10:09:14,535 - ERROR - modelos.reserva - Reserva 2 fallida: Duración inválida para el cálculo | Código: ERR_DURACION
+2026-05-11 10:09:14,535 - INFO - modelos.reserva - Operación finalizada para ID 2. Estado final: Fallida
+2026-05-11 10:09:14,535 - ERROR - modelos.reserva - Error mostrando reserva 2: 'Equipo' object has no attribute 'get_nombre'
+2026-05-11 10:09:14,535 - INFO - modelos.reserva - Iniciando procesamiento de Reserva 3
+2026-05-11 10:09:14,535 - INFO - modelos.reserva - Reserva 3 confirmada. Total: $360000.0
+2026-05-11 10:09:14,535 - INFO - modelos.reserva - Operación finalizada para ID 3. Estado final: Confirmada
+2026-05-11 10:09:14,535 - ERROR - modelos.reserva - Error mostrando reserva 3: 'Asesoria' object has no attribute 'get_nombre'
