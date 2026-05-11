@@ -25,5 +25,14 @@ class Servicio(Entidad):
         pass
 
     # Getter
-    def get_nombre(self):
-        return self._nombre
+    @property
+    def id_servicio(self):
+        return self._id_servicio
+    
+    @property
+    def nombre(self):
+        return self._nombre 
+    
+    @property
+    def precio(self):
+        return self._precio
