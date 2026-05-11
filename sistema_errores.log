@@ -10,3 +10,15 @@
 2026-05-11 11:41:36,047 - INFO - modelos.reserva - Reserva 3 confirmada. Total: $360000.0
 2026-05-11 11:41:36,048 - INFO - modelos.reserva - Operación finalizada para ID 3. Estado final: Confirmada
 2026-05-11 11:41:36,048 - INFO - modelos.reserva - Información consultada para Reserva 3
+2026-05-11 11:42:41,735 - INFO - modelos.reserva - Iniciando procesamiento de Reserva 1
+2026-05-11 11:42:41,735 - INFO - modelos.reserva - Reserva 1 confirmada. Total: $100000
+2026-05-11 11:42:41,735 - INFO - modelos.reserva - Operación finalizada para ID 1. Estado final: Confirmada
+2026-05-11 11:42:41,735 - INFO - modelos.reserva - Información consultada para Reserva 1
+2026-05-11 11:42:41,735 - INFO - modelos.reserva - Iniciando procesamiento de Reserva 2
+2026-05-11 11:42:41,735 - ERROR - modelos.reserva - Reserva 2 fallida: Duración inválida para el cálculo | Código: ERR_DURACION
+2026-05-11 11:42:41,735 - INFO - modelos.reserva - Operación finalizada para ID 2. Estado final: Fallida
+2026-05-11 11:42:41,735 - INFO - modelos.reserva - Información consultada para Reserva 2
+2026-05-11 11:42:41,735 - INFO - modelos.reserva - Iniciando procesamiento de Reserva 3
+2026-05-11 11:42:41,735 - INFO - modelos.reserva - Reserva 3 confirmada. Total: $360000.0
+2026-05-11 11:42:41,735 - INFO - modelos.reserva - Operación finalizada para ID 3. Estado final: Confirmada
+2026-05-11 11:42:41,735 - INFO - modelos.reserva - Información consultada para Reserva 3
